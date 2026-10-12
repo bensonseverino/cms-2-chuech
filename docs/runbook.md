@@ -165,7 +165,7 @@ The site's public API and form intake are authored **here** (in
 edit the copy on the site side; the next sync would wipe the edit.
 
 ```bash
-npm run sync:site              # destination: ../website/my-project
+npm run sync:site              # destination: ../cms/my-project
 DEST=/other/path npm run sync:site
 npx tsc -p site-integration/tsconfig.json    # typecheck the drop-in
 ```

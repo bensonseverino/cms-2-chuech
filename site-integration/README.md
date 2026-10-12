@@ -44,7 +44,7 @@ The functions need no npm dependencies at all — `functions/api/_lib/` is the v
 ## Order of operations (apply Phase 6 to the site repo)
 
 1. From the CMS repo root: `npm run sync:site` (default destination is the
-   sibling `../website/my-project`; set `DEST=…` if the checkout lives
+   sibling `../cms/my-project`; set `DEST=…` if the checkout lives
    elsewhere).
 2. Fill the `<...>` placeholders in the site's `wrangler.toml` from
    `../docs/cloudflare-setup.md` (same ids as `admin/wrangler.toml`).
@@ -53,11 +53,15 @@ The functions need no npm dependencies at all — `functions/api/_lib/` is the v
 4. Deploy. Then confirm Phase 6's `GET /api/public/site` responds before
    switching any component to the data layer (Phase 10).
 
+Note: `DEST=… npm run sync:site` overrides the default when the site repo
+doesn't live under `../cms/my-project`. The old default was
+`../website/my-project`; that folder no longer exists.
+
 Local verification without deploying (from the CMS repo root, after syncing and
 applying migrations locally):
 
 ```
-npx wrangler pages dev ../website/my-project --port 8799 \
+npx wrangler pages dev ../cms/my-project --port 8799 \
   --d1 DB=marino-cms --r2 MEDIA=marino-media --kv CACHE=CACHE \
   --.binding MEDIA_PUBLIC_BASE=http://localhost:9000 \
   --binding SITE_ORIGIN=http://localhost:8799 \

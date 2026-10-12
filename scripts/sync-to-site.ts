@@ -20,7 +20,7 @@ import { join, resolve } from 'node:path'
 const REPO_ROOT = resolve(import.meta.dirname, '..')
 const SITE_INTEGRATION = join(REPO_ROOT, 'site-integration')
 
-const DEST = process.env.DEST ? resolve(process.env.DEST) : resolve(import.meta.dirname, '../..', 'website/my-project')
+const DEST = process.env.DEST ? resolve(process.env.DEST) : resolve(import.meta.dirname, '../..', 'cms/my-project')
 
 if (!existsSync(join(DEST, 'package.json'))) {
   console.error(`sync-to-site: ${DEST} does not look like the site repo (no package.json).`)
