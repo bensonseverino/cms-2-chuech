@@ -1,0 +1,50 @@
+# ---------------------------------------------------------------------------
+# marino-site — the PUBLIC site's Pages project (spec §9.1).
+#
+# This file is a DROP-IN: copy it to the root of the site repo
+# (`website/my-project/wrangler.toml`) as part of the site integration. It is
+# kept here so the two projects' bindings are reviewed side by side and cannot
+# drift — the binding names DB / MEDIA / CACHE must match admin/wrangler.toml
+# exactly, because both projects read the same database, bucket and namespace.
+#
+# There is no `migrations_dir` here on purpose: migrations are owned by the CMS
+# repo and applied once. The site only reads.
+#
+# CAUTION (spec §2 Phase 2 step 4): the site's Pages project currently has no
+# wrangler.toml, so there are no dashboard bindings to copy. Once this file
+# lands, it becomes the source of truth — add any future dashboard variable to
+# this file instead of the dashboard, or the next deploy will drop it.
+# ---------------------------------------------------------------------------
+
+name = "marino-site"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+# --- D1: read-only for the public API (published snapshots) + form INSERTs ---
+[[d1_databases]]
+binding = "DB"
+database_name = "marino-cms"
+database_id = "<prod id — same database as the CMS>"
+preview_database_id = "<preview id — same preview database as the CMS>"
+
+# --- R2: the same media bucket, read-only for the site -----------------------
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "marino-media"
+preview_bucket_name = "marino-media"
+
+# --- KV: read content_version so edge cache keys can be busted ---------------
+[[kv_namespaces]]
+binding = "CACHE"
+id = "<prod id — same namespace as the CMS>"
+preview_id = "<preview id — same namespace as the CMS>"
+
+# --- Plain variables (public; no secrets here) -------------------------------
+[vars]
+# TODO(owner): set after Phase 1 — see docs/cloudflare-setup.md §4 and §11.
+MEDIA_PUBLIC_BASE = "https://media.example.com"
+SITE_ORIGIN = "https://example.com"
+
+# Secrets for this project (set with `wrangler pages secret put`, never here):
+#   TURNSTILE_SECRET, IP_HASH_SALT, PREVIEW_SECRET
+# Build variable (Pages dashboard, not a secret): VITE_TURNSTILE_SITE_KEY

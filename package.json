@@ -1,0 +1,35 @@
+{
+  "name": "marino-cms",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Marino CMS: admin site, shared schema/API packages and the site-side integration (Cloudflare Pages + D1 + R2 + KV).",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "admin",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "dev:admin": "npm run dev --workspace @marino/admin",
+    "dev:cms": "npm run pages:dev --workspace @marino/admin",
+    "sync:site": "node --experimental-strip-types scripts/sync-to-site.ts",
+    "db:migrate:local": "wrangler d1 migrations apply marino-cms --local --config ./admin/wrangler.toml",
+    "db:migrate:preview": "wrangler d1 migrations apply marino-cms-preview --remote --config ./admin/wrangler.toml",
+    "db:migrate:prod": "wrangler d1 migrations apply marino-cms --remote --config ./admin/wrangler.toml",
+    "db:migrations:list": "wrangler d1 migrations list marino-cms --local --config ./admin/wrangler.toml",
+    "db:time-travel": "wrangler d1 time-travel info marino-cms"
+  },
+  "devDependencies": {
+    "typescript": "~6.0.2",
+    "wrangler": "^4.149.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "workerd@1.20261006.1": true
+  }
+}

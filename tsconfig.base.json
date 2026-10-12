@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+
+    /*
+     * Typecheck-only: every workspace runs `tsc -b` for its build step and the
+     * bundler (vite/wrangler) does the emitting, so nothing here writes files.
+     */
+    "noEmit": true,
+
+    "strict": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    /*
+     * Deliberately NOT enabled: `exactOptionalPropertyTypes` and
+     * `noUncheckedIndexedAccess`. Both fight zod's inferred optional-props
+     * types and array-walking parsers (resolveMedia, RichInline) hard enough
+     * that every call site needs casts, which hides real errors. `strict` is
+     * on, so `undefined` is still not silently assignable.
+     */
+  }
+}
