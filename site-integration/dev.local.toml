@@ -1,0 +1,19 @@
+name = "marino-site"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "public"
+[[d1_databases]]
+binding = "DB"
+database_name = "marino-cms"
+database_id = "marino-cms"
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "marino-media"
+[[kv_namespaces]]
+binding = "CACHE"
+id = "CACHE"
+[vars]
+MEDIA_PUBLIC_BASE = "http://localhost:9000"
+SITE_ORIGIN = "http://localhost:8799"
+[env.local]
+TURNSTILE_BYPASS = "1"
+IP_HASH_SALT = "dev"
