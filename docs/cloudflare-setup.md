@@ -216,12 +216,14 @@ Two projects, both from the same repo (or the two repos, depending on the Phase 
 - Production branch: `main`.
 - Framework preset: **Vite**. Build command `npm run build`. Output directory `dist`.
 - Root directory: leave as-is for a single-app repo; if the repo becomes the spec's monorepo, set it to the site's app folder.
+- Build environment variable: `NODE_VERSION=22.22.0` (react-router 8 requires Node ≥22.22; `.nvmrc` is committed as a fallback).
 - Add `SITE_ORIGIN`, `MEDIA_PUBLIC_BASE`, `VITE_TURNSTILE_SITE_KEY` as variables; `TURNSTILE_SECRET`, `IP_HASH_SALT`, `PREVIEW_SECRET` as encrypted secrets (§11).
 
 **CMS project (`marino-cms`):**
 - Workers & Pages → **Create** → **Pages** → **Connect to Git** → same repo.
-- Root directory: `cms` (per the spec).
-- Build command: `npm run build`. Output: `dist`. Functions are auto-detected from `cms/functions`.
+- Root directory: `admin` (the admin workspace; the public site is a separate repo).
+- Build command: `npm run build`. Output: `dist`. Functions are auto-detected from `admin/functions`.
+- Build environment variable: `NODE_VERSION=22.22.0` (react-router 8 requires Node ≥22.22; `.nvmrc` is committed as a fallback).
 - Bindings: `DB` → `marino-cms`, `MEDIA` → `marino-media`, `CACHE` → the CACHE namespace. Preview deployments must use the preview D1/KV/bucket ids.
 - Variables/secrets: §11.
 - **Custom domain:** CMS project → **Custom domains** → **Set up a custom domain** → `cms.<domain>`. Cloudflare adds the CNAME.
